@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken') // used to create, sign, and verify tokens
 const config = require('../config') // get our config file
 
 // Create a new User
-exports.create = function(req, res) {
+exports.create = (req, res) => {
   // create a user
   let user = new User({
     name: req.body.name || 'Jeff Randall',
@@ -12,7 +12,7 @@ exports.create = function(req, res) {
   });
 
   // save the sample user
-  user.save(function(err) {
+  user.save((err) => {
     if (err) throw err;
 
     res.json({ success: `Successfully created user ${user.name}` });
@@ -20,23 +20,19 @@ exports.create = function(req, res) {
 }
 
 // Find all the Users
-exports.findAll = function(req, res) {
-  // User.find({}, function(err, users) {
-  //   res.json(users);
-  // });
-
+exports.findAll = (req, res) => {
   User.find({}, (err, users) => {
     res.json(users);
   });
 }
 
 // Authenticate a User
-exports.authenticate = function(req, res) {
-  
+exports.authenticate = (req, res) => {
+
   // find the user
   User.findOne({
     name: req.body.name
-  }, function(err, user) {
+  }, (err, user) => {
 
     if (err) throw err;
 

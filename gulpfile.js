@@ -10,7 +10,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const livereload = require('gulp-livereload');
 
 // Build for Dev with tooling
-gulp.task('build-dev', function () {
+gulp.task('build-dev', () => {
   return browserify({entries: ['./app/server.js'], debug: true})
     .transform("babelify", { presets: ["es2015"] })
     .bundle()
@@ -24,7 +24,7 @@ gulp.task('build-dev', function () {
 });
 
 // Build for Prod - not Dev Tools
-gulp.task('build-prod', function () {
+gulp.task('build-prod', () => {
   return browserify({entries: ['./app/server.js'], debug: false})
     .transform("babelify", { presets: ["es2015"] })
     .bundle()
@@ -35,7 +35,7 @@ gulp.task('build-prod', function () {
 });
 
 // Watch for changes to source files, then rebuild
-gulp.task('watch', ['build-dev'], function () {
+gulp.task('watch', ['build-dev'], () => {
   gulp.watch(['./app/*.js', './app/**/*.js'], ['eslint', 'build-dev']);
 });
 
@@ -50,14 +50,9 @@ gulp.task('eslint', () => {
 });
 
 // Check for any vulnerabilities in packagages
-gulp.task('nsp', function (cb) {
+gulp.task('nsp', (cb) => {
   gulpNSP({package: __dirname + '/package.json'}, cb);
 });
 
 gulp.task('dev', ['build-dev', 'watch']);
 gulp.task('prod', ['build-prod']);
-
-
-
-// References
-// https://thesocietea.org/2016/01/building-es6-javascript-for-the-browser-with-gulp-babel-and-more/
