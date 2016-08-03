@@ -1,28 +1,31 @@
-import User from '../models/user'
-import jwt from 'jsonwebtoken' // used to create, sign, and verify tokens
-import config from '../../config' // get our config file
+const User = require('../models/user')
+const jwt = require('jsonwebtoken') // used to create, sign, and verify tokens
+const config = require('../config') // get our config file
 
 // Create a new User
 exports.create = function(req, res) {
-  // create a sample user
-  let jeff = new User({ 
-    name: 'Jeff Randall', 
-    password: 'password',
-    admin: true 
+  // create a user
+  let user = new User({
+    name: req.body.name || 'Jeff Randall',
+    password: req.body.password || 'password',
+    admin: true
   });
 
   // save the sample user
-  jeff.save(function(err) {
+  user.save(function(err) {
     if (err) throw err;
 
-    console.log('User saved successfully');
-    res.json({ success: true });
+    res.json({ success: `Successfully created user ${user.name}` });
   });
 }
 
 // Find all the Users
 exports.findAll = function(req, res) {
-  User.find({}, function(err, users) {
+  // User.find({}, function(err, users) {
+  //   res.json(users);
+  // });
+
+  User.find({}, (err, users) => {
     res.json(users);
   });
 }

@@ -1,11 +1,11 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import morgan from 'morgan'
-import mongoose from 'mongoose'
+const express = require('express')
+const bodyParser = require('body-parser')
+const morgan = require('morgan')
+const mongoose = require('mongoose')
 
-import jwt from 'jsonwebtoken' // used to create, sign, and verify tokens
-import config from './config' // get our config file
-import User from './app/components/user' // get our Usermongoose model
+const jwt = require('jsonwebtoken') // used to create, sign, and verify tokens
+const config = require('./config') // get our config file
+const User = require('./components/user') // get our Usermongoose model
 
 const app = express();
 
@@ -22,11 +22,11 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 // =======================
-// routes ================
+// Basic Routes ==========
 // =======================
 
 // setup new user
-app.get('/setup', User.create)
+app.post('/setup', (req, res) => User.create(req, res))
 
 // basic route
 app.get('/', function(req, res) {
@@ -80,14 +80,14 @@ apiRoutes.use(function(req, res, next) {
 // Authenticated API Routes =
 // ==========================
 
-apiRoutes.get('/', function(req, res) {
+apiRoutes.get('/', (req, res) => {
   res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 
 // route to return all users (GET http://localhost:8080/api/users)
 apiRoutes.get('/users', User.findAll)
 
-apiRoutes.get('/check', function(req, res) {
+apiRoutes.get('/check', (req, res) => {
   res.json(req.decoded);
 });
 
